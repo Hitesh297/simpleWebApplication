@@ -2,20 +2,64 @@
 
 	$AppPoolName="SimpleWebApp"
 	$SiteFolderPath="C:\inetpub\wwwroot\SimpleWebApp"
+    $website="Default Web Site"
+	$ManagedPipelineMode="Integrated"
+	$ManagedRuntimeVersion="v4.0"
+	$Enable32= $false
+	$IdentityType="NetworkService"
 	
-
 	if(Test-Path IIS:\AppPools\$AppPoolName)
 	{
-	"AppPool already Exists"
+	"AppPool already Exists, deleting the AppPool"
+	$manager = Get-IISServerManager
+	$manager.ApplicationPools[$AppPoolName].Delete()
+	$manager.CommitChanges()
+	}
+	
+	"Creating new app pool with provided configurations"
+	$manager = Get-IISServerManager
+	$pool = $manager.ApplicationPools.Add($AppPoolName)
+	$pool.ManagedPipelineMode = $ManagedPipelineMode
+	$pool.ManagedRuntimeVersion = $ManagedRuntimeVersion
+	$pool.Enable32BitAppOnWin64 = $Enable32
+	$pool.AutoStart = $true
+	$pool.StartMode = "OnDemand"
+	$pool.ProcessModel.IdentityType = $IdentityType
+	$manager.CommitChanges()
+	"App pool created succesfully"
+	
+	if ((Get-WebApplication -Name $AppPoolName) -eq $null) {
+	"Creating Application on IIS"
+	New-Item -Type Application -Path "IIS:\Sites\$website\$AppPoolName" -physicalPath $SiteFolderPath
+	Write-Host "$AppPoolName application created"
 	}
 	else
 	{
-	"AppPool is not present"
-	"Creating new AppPool"
-	New-WebAppPool "$AppPoolName" -Force
-	"setting identity as Network Service"
-	Set-ItemProperty IIS:\AppPools\$AppPoolName -name processModel.identityType -value 2
+	Write-Host "$AppPoolName application already Exists"
 	}
+	
+	
+	
+	Write-Host "Assigning App Pool: $AppPoolName to Application : $AppPoolName"
+	Set-ItemProperty -Path "IIS:\Sites\$website\$AppPoolName" -name "applicationPool" -value $AppPoolName
+	
+	Write-Host "Setting application authentication as Windows Authenticated"
+	Set-WebConfigurationProperty `
+    -Filter "/system.webServer/security/authentication/windowsAuthentication" `
+    -Name "enabled" `
+    -Value $true `
+    -Location "$website/$AppPoolName" `
+    -PSPath IIS:\    # We are using the root (applicationHost.config) file
+	
+	# The section paths are:
+	# 
+	#  Anonymous: system.webServer/security/authentication/anonymousAuthentication
+	#  Basic:     system.webServer/security/authentication/basicAuthentication
+	#  Windows:   system.webServer/security/authentication/windowsAuthentication
+
+	
+	
+	
 
 	
 	# Stop the app pool before changing the settings
@@ -26,19 +70,16 @@
 			# Write-Host "app pool stopped"
 		 # } 
 		 
-
-		 $website="Default Web Site"
-		  Write-Host "creating application"
-		  #get-webapplication -Name "SurveyAPI"
-		 if ((Get-WebApplication -Name $AppPoolName) -eq $null) {
-		# Create the Web Application
-		New-WebApplication -Name $AppPoolName -Site 'Default Web Site' -PhysicalPath $SiteFolderPath -ApplicationPool $AppPoolName
-		Write-Host "$AppPoolName application created"
-		}
-		else
-		{
-		Write-Host "$AppPoolName application already exists"
-		}
+		 # Write-Host "creating application"
+		 # if ((Get-WebApplication -Name $AppPoolName) -eq $null) {
+	
+		# New-WebApplication -Name $AppPoolName -Site 'Default Web Site' -PhysicalPath $SiteFolderPath -ApplicationPool $AppPoolName
+		# Write-Host "$AppPoolName application created"
+		# }
+		# else
+		# {
+		# Write-Host "$AppPoolName application already exists"
+		# }
 		
 		# Check if application pool is already started
 		# if ((Get-WebAppPoolState -name $AppPoolName).value -ne 'Started') {
