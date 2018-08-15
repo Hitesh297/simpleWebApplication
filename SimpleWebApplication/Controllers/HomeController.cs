@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Application;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,7 @@ namespace SimpleWebApplication.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            ViewBag.Title = StringHelper.WelcomeUser(System.Security.Principal.WindowsIdentity.GetCurrent().Name);
             return View();
         }
 
