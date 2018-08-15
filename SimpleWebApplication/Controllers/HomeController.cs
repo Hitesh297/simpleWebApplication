@@ -12,7 +12,7 @@ namespace SimpleWebApplication.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            ViewBag.Title = StringHelper.WelcomeUser(System.Security.Principal.WindowsIdentity.GetCurrent().Name);
+            ViewBag.Title = StringHelper.WelcomeUser(System.Web.HttpContext.Current.User.Identity.Name);
             return View();
         }
 
