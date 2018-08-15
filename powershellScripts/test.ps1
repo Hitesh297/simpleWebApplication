@@ -20,11 +20,11 @@
 	
 	# Stop the app pool before changing the settings
 	
-	if ((Get-WebAppPoolState -name $AppPoolName).value -ne 'Stopped') {
+	# if ((Get-WebAppPoolState -name $AppPoolName).value -ne 'Stopped') {
 	
-			Stop-WebAppPool -Name $AppPoolName
-			Write-Host "app pool stopped"
-		 } 
+			# Stop-WebAppPool -Name $AppPoolName
+			# Write-Host "app pool stopped"
+		 # } 
 		 
 
 		 $website="Default Web Site"
@@ -41,8 +41,8 @@
 		}
 		
 		# Check if application pool is already started
-		if ((Get-WebAppPoolState -name $AppPoolName).value -ne 'Started') {
-			Start-WebAppPool -Name $AppPoolName
-			Write-Host "starting the app pool"
-		 }
+		# if ((Get-WebAppPoolState -name $AppPoolName).value -ne 'Started') {
+			# Start-WebAppPool -Name $AppPoolName
+			# Write-Host "starting the app pool"
+		 # }
 
