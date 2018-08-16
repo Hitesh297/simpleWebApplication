@@ -29,7 +29,7 @@
     <Exec Command="jfrog rt upload local\\artifacts\\path repository/destination/path $(BuildFlags)"/>
     <Exec Command="jfrog rt upload $(ArtifatsPatternPath) repository/destination/path $(BuildFlags)"/>
     -->
-    <Exec Command="jfrog rt upload $(ArtifatsPatternPath) msbuild-local/$(BuildName)/ --flat=false $(BuildFlags)" />
+    <Exec Command="C:\Users\Hitesh\Downloads\software\jfrog.exe rt upload $(ArtifatsPatternPath) msbuild-local/$(BuildName)/ --flat=false $(BuildFlags)" />
   </Target>
   <Target Name="PublishBuildInfo" AfterTargets="AfterBuild;UploadArtifacts" Condition=" '$(ArtifactoryPublish)' == 'true' ">
     <Message Text="Publishing build-info" />
@@ -39,7 +39,7 @@
     <Exec Command="jfrog rt build-collect-env $(BuildName) $(BuildNumber)"/>
     -->
     <!--Publish build-info to Artifactory using JFrog CLI-->
-    <Exec Command="jfrog rt build-publish $(BuildName) $(BuildNumber)" />
+    <Exec Command="C:\Users\Hitesh\Downloads\software\jfrog.exe rt build-publish $(BuildName) $(BuildNumber)" />
   </Target>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
