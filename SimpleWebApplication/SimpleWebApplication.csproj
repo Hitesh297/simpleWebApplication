@@ -29,7 +29,7 @@
     <Exec Command="jfrog rt upload local\\artifacts\\path repository/destination/path $(BuildFlags)"/>
     <Exec Command="jfrog rt upload $(ArtifatsPatternPath) repository/destination/path $(BuildFlags)"/>
     -->
-    <Exec Command="C:\Users\Hitesh\Downloads\software\jfrog.exe rt upload $(ArtifatsPatternPath) msbuild-local/$(BuildName)/ --flat=false $(BuildFlags)" />
+    <Exec Command="C:\Users\Hitesh\Downloads\software\jfrog.exe rt upload $(ArtifatsPatternPath) msbuild-local/$(BuildName)/ --flat=false $(BuildFlags) --url=http://localhost:8081/artifactory" />
   </Target>
   <Target Name="PublishBuildInfo" AfterTargets="AfterBuild;UploadArtifacts" Condition=" '$(ArtifactoryPublish)' == 'true' ">
     <Message Text="Publishing build-info" />
