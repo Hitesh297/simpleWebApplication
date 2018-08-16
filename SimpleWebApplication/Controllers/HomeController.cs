@@ -1,4 +1,5 @@
 ﻿using Common.Application;
+using Project.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace SimpleWebApplication.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = StringHelper.WelcomeUser(System.Web.HttpContext.Current.User.Identity.Name);
+            ViewBag.Date = Helper.DisplayDateTime();
             return View();
         }
 

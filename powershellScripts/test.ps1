@@ -38,11 +38,13 @@
 	Write-Host "$AppPoolName application already Exists"
 	}
 	
-	
-	
 	Write-Host "Assigning App Pool: $AppPoolName to Application : $AppPoolName"
 	Set-ItemProperty -Path "IIS:\Sites\$website\$AppPoolName" -name "applicationPool" -value $AppPoolName
 	
+	
+	#  Anonymous: system.webServer/security/authentication/anonymousAuthentication
+	#  Basic:     system.webServer/security/authentication/basicAuthentication
+	#  Windows:   system.webServer/security/authentication/windowsAuthentication
 	Write-Host "Setting application authentication as Windows Authenticated"
 	Set-WebConfigurationProperty `
     -Filter "/system.webServer/security/authentication/windowsAuthentication" `
@@ -50,17 +52,16 @@
     -Value $true `
     -Location "$website/$AppPoolName" `
     -PSPath IIS:\    # We are using the root (applicationHost.config) file
-	
-	# The section paths are:
-	# 
-	#  Anonymous: system.webServer/security/authentication/anonymousAuthentication
-	#  Basic:     system.webServer/security/authentication/basicAuthentication
-	#  Windows:   system.webServer/security/authentication/windowsAuthentication
 
 	
 	
 	
-
+	
+	
+	
+	
+	
+	
 	
 	# Stop the app pool before changing the settings
 	
