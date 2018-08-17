@@ -56,7 +56,7 @@
 	
 
 
-C:\Users\Hitesh\Downloads\software\jfrog.exe rt upload bin\\ msbuild-local/SimpleWebApplication/ --flat=false --build-name=SimpleWebApplication --build-number=636701083926556180 
+C:\Users\Hitesh\Downloads\software\jfrog.exe rt upload bin\\ msbuild-local/SimpleWebApplication/ --flat=false --build-name=SimpleWebApplication --build-number=636701083926556180 --url=http://localhost:8081/artifactory
 	
 	
 	
