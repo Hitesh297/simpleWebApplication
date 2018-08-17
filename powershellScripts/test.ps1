@@ -53,7 +53,7 @@
     -Location "$website/$AppPoolName" `
     -PSPath IIS:\    # We are using the root (applicationHost.config) file
 
-	jfrog rt c rt-server-1 --url=http://localhost:8081/artifactory --user=admin --password=admin
+	C:\Users\Hitesh\Downloads\software\jfrog.exe rt c rt-server-1 --url=http://localhost:8081/artifactory --user=admin --password=admin
 	
 C:\Users\Hitesh\Downloads\software\jfrog.exe rt use rt-server-1
 
