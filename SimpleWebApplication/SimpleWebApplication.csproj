@@ -3,47 +3,7 @@
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Target Name="SetJFrogProperties" BeforeTargets="DownloadDependencies;PrepareForBuild" Condition=" '$(ArtifactoryPublish)' == 'true' ">
-    <Message Text="Setting JFrog properties" />
-    <!--Build name property-->
-    <CreateProperty Condition=" '$(BuildName)' == '' " Value="$(MSBuildProjectName)">
-      <Output TaskParameter="Value" PropertyName="BuildName" />
-    </CreateProperty>
-    <!--Build number property-->
-    <CreateProperty Condition=" '$(BuildNumber)' == '' " Value="$([System.DateTime]::UtcNow.Ticks)">
-      <Output TaskParameter="Value" PropertyName="BuildNumber" />
-    </CreateProperty>
-    <!--Build flags-->
-    <CreateProperty Value="--build-name=$(BuildName) --build-number=$(BuildNumber)">
-      <Output TaskParameter="Value" PropertyName="BuildFlags" />
-    </CreateProperty>
-    <!--Output path pattern fix, use this property to upload all the artifacts in build OutputPath-->
-    <CreateProperty Value="$([System.String]::Copy('$(OutputPath)').Replace('\','\\'))">
-      <Output TaskParameter="Value" PropertyName="ArtifatsPatternPath" />
-    </CreateProperty>
-  </Target>
-  <Target Name="UploadArtifacts" AfterTargets="AfterBuild" Condition=" '$(ArtifactoryPublish)' == 'true' ">
-    <Message Text="Upload artifacts"/>
-    <!--Upload artifacts to Artifactory using JFrog CLI-->
-    <!--Example:
-    <Exec Command="jfrog rt upload local\\artifacts\\path repository/destination/path $(BuildFlags)"/>
-    <Exec Command="jfrog rt upload $(ArtifatsPatternPath) repository/destination/path $(BuildFlags)"/>
-    -->
 
-	<Exec Command="jfrog rt upload $(ArtifatsPatternPath) msbuild-local/$(BuildName)/ --flat=false $(BuildFlags)"/>
-  </Target>
-
-  <Target Name="PublishBuildInfo" AfterTargets="AfterBuild;UploadArtifacts" Condition=" '$(ArtifactoryPublish)' == 'true' ">
-    <Message Text="Publishing build-info"/>
-    <!--Optional build info commands-->
-    <!--Example:
-    <Exec Command="jfrog rt build-add-git $(BuildName) $(BuildNumber)"/>
-    <Exec Command="jfrog rt build-collect-env $(BuildName) $(BuildNumber)"/>
-    -->
-    
-    <!--Publish build-info to Artifactory using JFrog CLI-->
-    <Exec Command="jfrog rt build-publish $(BuildName) $(BuildNumber)"/>
-  </Target>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>

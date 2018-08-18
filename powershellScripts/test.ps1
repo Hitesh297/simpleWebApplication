@@ -1,6 +1,7 @@
 	import-module webadministration
 
-	$AppPoolName="SimpleWebApp"
+	$BuildNumber=$Env:BUILD_NUMBER
+	$AppName=$Env:JOB_NAME
 	$SiteFolderPath="C:\inetpub\wwwroot\SimpleWebApp"
     $website="Default Web Site"
 	$ManagedPipelineMode="Integrated"
@@ -8,17 +9,18 @@
 	$Enable32= $false
 	$IdentityType="NetworkService"
 	
-	if(Test-Path IIS:\AppPools\$AppPoolName)
+	
+	if(Test-Path IIS:\AppPools\$AppName)
 	{
 	"AppPool already Exists, deleting the AppPool"
 	$manager = Get-IISServerManager
-	$manager.ApplicationPools[$AppPoolName].Delete()
+	$manager.ApplicationPools[$AppName].Delete()
 	$manager.CommitChanges()
 	}
 	
 	"Creating new app pool with provided configurations"
 	$manager = Get-IISServerManager
-	$pool = $manager.ApplicationPools.Add($AppPoolName)
+	$pool = $manager.ApplicationPools.Add($AppName)
 	$pool.ManagedPipelineMode = $ManagedPipelineMode
 	$pool.ManagedRuntimeVersion = $ManagedRuntimeVersion
 	$pool.Enable32BitAppOnWin64 = $Enable32
@@ -28,18 +30,18 @@
 	$manager.CommitChanges()
 	"App pool created succesfully"
 	
-	if ((Get-WebApplication -Name $AppPoolName) -eq $null) {
+	if ((Get-WebApplication -Name $AppName) -eq $null) {
 	"Creating Application on IIS"
-	New-Item -Type Application -Path "IIS:\Sites\$website\$AppPoolName" -physicalPath $SiteFolderPath
-	Write-Host "$AppPoolName application created"
+	New-Item -Type Application -Path "IIS:\Sites\$website\$AppName" -physicalPath $SiteFolderPath
+	Write-Host "$AppName application created"
 	}
 	else
 	{
-	Write-Host "$AppPoolName application already Exists"
+	Write-Host "$AppName application already Exists"
 	}
 	
-	Write-Host "Assigning App Pool: $AppPoolName to Application : $AppPoolName"
-	Set-ItemProperty -Path "IIS:\Sites\$website\$AppPoolName" -name "applicationPool" -value $AppPoolName
+	Write-Host "Assigning App Pool: $AppName to Application : $AppName"
+	Set-ItemProperty -Path "IIS:\Sites\$website\$AppName" -name "applicationPool" -value $AppName
 	
 	
 	#  Anonymous: system.webServer/security/authentication/anonymousAuthentication
@@ -50,9 +52,25 @@
     -Filter "/system.webServer/security/authentication/windowsAuthentication" `
     -Name "enabled" `
     -Value $true `
-    -Location "$website/$AppPoolName" `
+    -Location "$website/$AppName" `
     -PSPath IIS:\    # We are using the root (applicationHost.config) file
 
+	
+	set Path="C:\Program Files (x86)\jfrog"
+
+	echo "setting config to use artifactory"
+	jfrog rt c jenkins-server-1 --url=http://localhost:8081/artifactory/ --apikey=AKCp5bBNL65PgEJz1ZKE8LMxv1V2NwHJqkFpLiVSCsmRjdr4wPjUuVRHhZRqNspGsd1k64tS3
+	jfrog rt use jenkins-server-1
+
+echo "This is build number %BUILD_NUMBER%"
+	
+	jfrog rt upload $SiteFolderPath msbuild-local/$AppName/ --flat=false --build-name=$AppName --build-number=$BuildNumber
+	jfrog rt build-publish $AppName $BuildNumber
+	
+	
+	
+	
+	
 #C:\Users\Hitesh\Downloads\software\jfrog.exe rt c rt-server-1 --url=http://localhost:8081/artifactory --user=admin --password=admin
 	
 #C:\Users\Hitesh\Downloads\software\jfrog.exe rt use rt-server-1
@@ -68,26 +86,26 @@
 	
 	# Stop the app pool before changing the settings
 	
-	# if ((Get-WebAppPoolState -name $AppPoolName).value -ne 'Stopped') {
+	# if ((Get-WebAppPoolState -name $AppName).value -ne 'Stopped') {
 	
-			# Stop-WebAppPool -Name $AppPoolName
+			# Stop-WebAppPool -Name $AppName
 			# Write-Host "app pool stopped"
 		 # } 
 		 
 		 # Write-Host "creating application"
-		 # if ((Get-WebApplication -Name $AppPoolName) -eq $null) {
+		 # if ((Get-WebApplication -Name $AppName) -eq $null) {
 	
-		# New-WebApplication -Name $AppPoolName -Site 'Default Web Site' -PhysicalPath $SiteFolderPath -ApplicationPool $AppPoolName
-		# Write-Host "$AppPoolName application created"
+		# New-WebApplication -Name $AppName -Site 'Default Web Site' -PhysicalPath $SiteFolderPath -ApplicationPool $AppName
+		# Write-Host "$AppName application created"
 		# }
 		# else
 		# {
-		# Write-Host "$AppPoolName application already exists"
+		# Write-Host "$AppName application already exists"
 		# }
 		
 		# Check if application pool is already started
-		# if ((Get-WebAppPoolState -name $AppPoolName).value -ne 'Started') {
-			# Start-WebAppPool -Name $AppPoolName
+		# if ((Get-WebAppPoolState -name $AppName).value -ne 'Started') {
+			# Start-WebAppPool -Name $AppName
 			# Write-Host "starting the app pool"
 		 # }
 
