@@ -42,7 +42,7 @@
     -->
     
     <!--Publish build-info to Artifactory using JFrog CLI-->
-    <Exec Command="jfrog rt build-publish $(BuildName) $(BUILD_NUMBER)"/>
+    <Exec Command="jfrog rt build-publish $(BuildName) $(BuildNumber)"/>
   </Target>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
