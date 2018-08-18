@@ -29,8 +29,7 @@
     <Exec Command="jfrog rt upload local\\artifacts\\path repository/destination/path $(BuildFlags)"/>
     <Exec Command="jfrog rt upload $(ArtifatsPatternPath) repository/destination/path $(BuildFlags)"/>
     -->
-    <Exec Command="C:\Users\Hitesh\Downloads\software\jfrog.exe rt c rt-server-1 --url=http://localhost:8081/artifactory --user=admin --password=admin"/>
-    <Exec Command="C:\Users\Hitesh\Downloads\software\jfrog.exe rt use rt-server-1"/>
+
 	<Exec Command="C:\Users\Hitesh\Downloads\software\jfrog.exe rt upload $(ArtifatsPatternPath) msbuild-local/$(BuildName)/ --flat=false $(BuildFlags)"/>
   </Target>
 
