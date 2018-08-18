@@ -3,6 +3,7 @@
 	$BuildNumber=$Env:BUILD_NUMBER
 	$AppName=$Env:JOB_NAME
 	$SiteFolderPath="C:\inetpub\wwwroot\SimpleWebApp"
+	$SiteFolderPathWithEscape="C:\\inetpub\\wwwroot\\SimpleWebApp\\"
     $website="Default Web Site"
 	$ManagedPipelineMode="Integrated"
 	$ManagedRuntimeVersion="v4.0"
@@ -56,15 +57,14 @@
     -PSPath IIS:\    # We are using the root (applicationHost.config) file
 
 	
-	set Path="C:\Program Files (x86)\jfrog"
+	$env:Path="C:\Program Files (x86)\jfrog"
 
 	echo "setting config to use artifactory"
 	jfrog rt c jenkins-server-1 --url=http://localhost:8081/artifactory/ --apikey=AKCp5bBNL65PgEJz1ZKE8LMxv1V2NwHJqkFpLiVSCsmRjdr4wPjUuVRHhZRqNspGsd1k64tS3
 	jfrog rt use jenkins-server-1
-
-echo "This is build number %BUILD_NUMBER%"
 	
-	jfrog rt upload $SiteFolderPath msbuild-local/$AppName/ --flat=false --build-name=$AppName --build-number=$BuildNumber
+	
+	jfrog rt upload $SiteFolderPathWithEscape msbuild-local/$AppName/ --flat=false --build-name=$AppName --build-number=$BuildNumber
 	jfrog rt build-publish $AppName $BuildNumber
 	
 	
