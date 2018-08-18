@@ -4,6 +4,7 @@
 	$AppName=$Env:JOB_NAME
 	$SiteFolderPath="C:\inetpub\wwwroot\SimpleWebApp"
 	$SiteFolderPathWithEscape="C:\\inetpub\\wwwroot\\SimpleWebApp\\"
+	$JenkinsWorkspace="C:\\Program Files (x86)\\Jenkins\\workspace"
     $website="Default Web Site"
 	$ManagedPipelineMode="Integrated"
 	$ManagedRuntimeVersion="v4.0"
@@ -65,6 +66,8 @@
 	
 	
 	jfrog rt upload $SiteFolderPathWithEscape msbuild-local/$AppName/ --flat=false --build-name=$AppName --build-number=$BuildNumber
+	jfrog rt bce $AppName $BuildNumber
+	jfrog rt bag $AppName $BuildNumber "$JenkinsWorkspace/$AppName"
 	jfrog rt build-publish $AppName $BuildNumber
 	
 	
