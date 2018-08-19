@@ -13,7 +13,10 @@ namespace SimpleWebApplication.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            ViewBag.Title = StringHelper.WelcomeUser(System.Web.HttpContext.Current.User.Identity.Name);
+            if (string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name))
+            {ViewBag.Title = StringHelper.WelcomeUser("Guest");}
+            else
+            {ViewBag.Title = StringHelper.WelcomeUser(System.Web.HttpContext.Current.User.Identity.Name.Split('\\').Last());}
             ViewBag.Date = Helper.DisplayDateTime();
             return View();
         }

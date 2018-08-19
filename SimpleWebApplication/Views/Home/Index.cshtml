@@ -2,8 +2,8 @@
 @{
     //ViewBag.Title = "Test Application Page";
 }
+<script src="~/Scripts/bootstrap.min.js"></script>
+<h2><span class="label label-default">@ViewBag.Date</span></h2>
+<h3>@ViewBag.Title</h3>
 
-<h2>@ViewBag.Title</h2>
-<h3>@ViewBag.Date</h3>
-
-<h4>This is version 5.0.0!!!!!</h4>
+<h4>Current application running on : </h4><h3><span class="label label-primary">@HttpContext.Current.Server.MachineName</span></h3>
