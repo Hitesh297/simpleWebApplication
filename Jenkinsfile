@@ -13,7 +13,7 @@ node {
   "files": [
     {
       "pattern": "C:\\inetpub\\wwwroot\\SimpleWebApp\\",
-      "target": "msbuild-local/SimpleWebApp/"
+      "target": "msbuild-local/SimpleWebApp/${GIT_COMMIT}/"
     }
  ]
 }"""
