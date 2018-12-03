@@ -22,6 +22,6 @@ node {
 }"""
 server.upload(uploadSpec)
 	
-		archive 'SimpleWebApp/SimpleWebApplication/bin/**'
+		
 
 }
