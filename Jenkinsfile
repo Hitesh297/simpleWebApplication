@@ -7,6 +7,18 @@ node {
 		bat "\"${tool 'MSBuild'}\" SimpleWebApplication.sln /p:Configuration=Release /P:PublishProfile=SimpleWebApp /P:DeployOnBuild=True /p:Platform=\"Any CPU\" /p:ProductVersion=1.0.0.${env.BUILD_NUMBER}"
 
 	stage 'Archive'
+	def server = Artifactory.server('jenkins-server-1')
+	
+	def uploadSpec = """{
+  "files": [
+    {
+      "pattern": "C:\\inetpub\\wwwroot\\SimpleWebApp\\",
+      "target": "msbuild-local/SimpleWebApp/"
+    }
+ ]
+}"""
+server.upload(uploadSpec)
+	
 		archive 'SimpleWebApp/SimpleWebApplication/bin/**'
 
 }
