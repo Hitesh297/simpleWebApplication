@@ -17,7 +17,7 @@ node {
     {
       "pattern": "C:\\inetpub\\wwwroot\\SimpleWebApp\\",
       "target": "msbuild-local/SimpleWebApp/${env.GIT_COMMIT}/",
-      "falt": "false"
+      "flat": "false"
     }
  ]
 }"""
