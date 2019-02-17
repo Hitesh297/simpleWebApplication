@@ -7,3 +7,12 @@
 <h3>@ViewBag.Title</h3>
 
 <h4>Current application running on : </h4><h3><span class="label label-primary">@HttpContext.Current.Server.MachineName</span></h3>
+
+<ul class="list-group">
+    @{
+        foreach (var ip in ViewBag.Ip)
+        {
+            <li class="list-group-item">@ip</li>
+        }
+    }
+</ul>

@@ -1,9 +1,15 @@
 ﻿using Common.Application;
+using NHibernate;
+using NhibernateHelper;
 using Project.Helper;
+using SimpleWebApplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace SimpleWebApplication.Controllers
@@ -13,11 +19,18 @@ namespace SimpleWebApplication.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            //Remove later
+            var sessionSection = (SessionStateSection)WebConfigurationManager.GetSection("system.web/sessionState");
+
+            //Remve Later
+
+
             if (string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name))
             {ViewBag.Title = StringHelper.WelcomeUser("Guest");}
             else
             {ViewBag.Title = StringHelper.WelcomeUser(System.Web.HttpContext.Current.User.Identity.Name.Split('\\').Last());}
             ViewBag.Date = Helper.DisplayDateTime();
+            ViewBag.Ip = Dns.GetHostEntry(Dns.GetHostName()).AddressList.Where(a => a.AddressFamily == AddressFamily.InterNetwork);
             return View();
         }
 
@@ -30,7 +43,11 @@ namespace SimpleWebApplication.Controllers
         // GET: Home/Create
         public ActionResult Create()
         {
-            return View();
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                var data = session.CreateCriteria<Student>().List<Student>().ToList();
+            }
+                return View();
         }
 
         // POST: Home/Create
