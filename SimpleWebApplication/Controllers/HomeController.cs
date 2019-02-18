@@ -58,7 +58,7 @@ namespace SimpleWebApplication.Controllers
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction("Indexxx");
+                return RedirectToAction("Ind");
             }
             catch
             {
