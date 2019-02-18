@@ -81,7 +81,6 @@ namespace SimpleWebApplication.Controllers
                 // TODO: Add update logic here
 
                 return RedirectToAction("Indexxxx");
-                jshdbvhjs
             }
             catch
             {
