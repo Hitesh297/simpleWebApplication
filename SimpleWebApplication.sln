@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Application", "Commo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NhibernateHelper", "NhibernateHelper\NhibernateHelper.csproj", "{07D5ADFB-09A5-42E7-B0F3-FCFAFDEC6124}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumTest", "SeleniumTest\SeleniumTest.csproj", "{E3FAC17F-4E39-48D8-BB8D-CEC0A6350A9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{07D5ADFB-09A5-42E7-B0F3-FCFAFDEC6124}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07D5ADFB-09A5-42E7-B0F3-FCFAFDEC6124}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07D5ADFB-09A5-42E7-B0F3-FCFAFDEC6124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3FAC17F-4E39-48D8-BB8D-CEC0A6350A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3FAC17F-4E39-48D8-BB8D-CEC0A6350A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3FAC17F-4E39-48D8-BB8D-CEC0A6350A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3FAC17F-4E39-48D8-BB8D-CEC0A6350A9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
