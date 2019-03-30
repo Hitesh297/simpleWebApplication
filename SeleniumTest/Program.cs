@@ -32,7 +32,7 @@ namespace SeleniumTest
             //Thread.Sleep(10000);
             //webDriver.FindElement(By.Id("ctl00_RightContent_tvEAMENUt4")).SendKeys(Keys.Enter);
             webDriver.FindElement(By.Id("unamebean")).SendKeys("hiteshbhai.patel");
-            webDriver.FindElement(By.Id("pwdbean")).SendKeys("password");
+            webDriver.FindElement(By.Id("pwdbean")).SendKeys(DecodeFrom64("RmViMTltYXJjaDE5"));
             webDriver.FindElement(By.Id("SubmitButton")).SendKeys(Keys.Enter);
             Thread.Sleep(3000);
             webDriver.FindElement(By.XPath("//*[@id='50815:809:-1:0']/a")).SendKeys(Keys.Enter);
@@ -54,9 +54,22 @@ namespace SeleniumTest
             webDriver.FindElement(By.XPath("//*[@id='review']")).SendKeys(Keys.Enter);
             Thread.Sleep(3000);
             webDriver.FindElement(By.XPath("//*[@id='Hxctccancelbutton']")).SendKeys(Keys.Enter);
-            
+            Thread.Sleep(3000);
+            webDriver.Dispose();
 
 
+        }
+
+        static string DecodeFrom64(string encodedData)
+        {
+            System.Text.UTF8Encoding encoder = new System.Text.UTF8Encoding();
+            System.Text.Decoder utf8Decode = encoder.GetDecoder();
+            byte[] todecode_byte = Convert.FromBase64String(encodedData);
+            int charCount = utf8Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
+            char[] decoded_char = new char[charCount];
+            utf8Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
+            string result = new String(decoded_char);
+            return result;
         }
     }
 }

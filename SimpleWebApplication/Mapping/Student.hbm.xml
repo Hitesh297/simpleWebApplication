@@ -9,7 +9,16 @@
     </id>
     <property name="Name" column="NAME" />
     <property name="Subject" column="SUBJECT"/>
+    <one-to-one name="Risk" class="SimpleWebApplication.Models.Risk" />
 
+  </class>
+
+  <class name="SimpleWebApplication.Models.Risk" table="Risk">
+    <id name="RiskId" type="int">
+      <generator class="native" />
+    </id>
+
+    <property name="Rating"  type="String"  />
   </class>
 
 </hibernate-mapping>

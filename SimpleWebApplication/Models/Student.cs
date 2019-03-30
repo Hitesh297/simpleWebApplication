@@ -10,5 +10,6 @@ namespace SimpleWebApplication.Models
         public virtual int RollNo { get; set; }
         public virtual string Name { get; set; }
         public virtual string Subject { get; set; }
+        public virtual Risk Risk { get; set; }
     }
 }
